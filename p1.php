@@ -1,60 +1,73 @@
-<html> 
-<body> 
-<h1>Looping & Conditional Statements</h1> 
- 
-<form method="get"> 
-1. Armstrong Number<br> 
-2. Sum of Digits<br> 
-3. Triangle<br> 
-Enter choice: <input type="text" name="choice"/> 
-<input type="submit" value="Submit"><br> 
-</form> 
- 
-<?php 
-if(isset($_GET['choice'])){ 
-    $choice = $_GET['choice']; 
- 
-    if($choice == 1){ 
-        echo "Armstrong Number<br>"; 
-        $num = 153; 
-        $sum = 0; 
-        $temp = $num; 
-        while($temp > 0){ 
-            $rem = $temp % 10; 
-            $sum += $rem * $rem * $rem; 
-            $temp = intval($temp / 10); 
-        } 
-        if($sum == $num){ 
-            echo "$num is an Armstrong number"; 
-        } else { 
-            echo "$num is not an Armstrong number"; 
-        } 
- 
-    } elseif($choice == 2){ 
-        echo "Sum of Digits<br>"; 
-        $num = 16; 
-        $sum = 0; 
-        $temp = $num; 
-        while($temp > 0){ 
-            $rem = $temp % 10; 
-            $sum += $rem; 
-            $temp = intval($temp / 10); 
-        } 
-        echo "Sum of digits of $num = $sum"; 
- 
-    } elseif($choice == 3){ 
-        echo "Triangle<br>"; 
-        for($i = 1; $i <= 5; $i++){ 
-            for($j = 1; $j <= $i; $j++){ 
-                echo "*"; 
-            } 
-            echo "<br>"; 
-        } 
- 
-    } else { 
-        echo "Enter a correct choice (1-3)"; 
-    } 
-} 
-?> 
-</body> 
-</html> 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Looping & Conditional Statement</title>
+</head>
+<body>
+<marquee><b><h1>LOOPING & CONDITIONAL STATEMENT</h1></b></marquee>
+
+<form method="get">
+    1. Armstrong number<br>
+    2. Sum of digits<br>
+    3. Display triangle<br><br>
+    Enter your choice: <input type="text" name="choice"/><br><br>
+    <input type="submit" value="Submit"/><br>
+</form>
+<hr>
+
+<?php
+if (isset($_GET["choice"]) && $_GET["choice"] !== '') {
+    $n = $_GET["choice"];
+
+    switch ($n) {
+        case 1:
+            echo strtoupper("<b><i>Armstrong number</i></b><br>");
+            $num = 153;   // test number
+            $total = 0;
+            $x = $num;
+
+            while ($num != 0) {
+                $rem = $num % 10;
+                $total = $total + ($rem * $rem * $rem);
+                $num = intdiv($num, 10);  // integer division
+            }
+
+            if ($x == $total) {
+                echo "$x is an Armstrong number";
+            } else {
+                echo "$x is not an Armstrong number";
+            }
+            break;
+
+        case 2:
+            echo strtoupper("<b><i>Sum of digits</i></b><br>");
+            $num = 163;   // test number
+            $sum = 0;
+
+            $x = $num;
+            while ($num > 0) {
+                $rem = $num % 10;
+                $sum = $sum + $rem;
+                $num = intdiv($num, 10);
+            }
+
+            echo "Sum of digits of $x = $sum";
+            break;
+
+        case 3:
+            echo strtoupper("<b><i>Triangle</i></b><br>");
+            for ($i = 1; $i <= 5; $i++) {
+                for ($j = 1; $j <= $i; $j++) {
+                    echo "*";
+                }
+                echo "<br>";
+            }
+            break;
+
+        default:
+            echo "<span style='color:red'>Please enter valid choice (1-3)</span>";
+    }
+}
+?>
+</body>
+</html>
