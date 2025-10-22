@@ -1,52 +1,47 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Simple PHP Form Validation</title>
-    <style>.error { color: red; }</style>
-</head>	
-<body>
-<h2>Simple PHP Form Validation</h2>
-<?php
-$name = $email = $password = "";
-$nameErr = $emailErr = $passwordErr = "";
-function clean($data) {
-    return htmlspecialchars(stripslashes(trim($data)));
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="86dp"
+        android:layout_marginTop="94dp"
+        android:text="start" />
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button1"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="25dp"
+        android:text="stop" />
+</RelativeLayout>
+package com.example.prg5;
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.View;
+import android.widget.Toast;
+import android.view.Menu;
+public class MainActivity extends Activity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+    
 }
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = clean($_POST["name"] ?? '');
-    $email = clean($_POST["email"] ?? '');
-    $password = clean($_POST["password"] ?? '');
-    if (!$name) {
-        $nameErr = "Name is required";
-    } elseif (!preg_match("/^[a-zA-Z]+$/", $name)) {
-        $nameErr = "Only letters allowed";
-    }
-    if (!$email) {
-        $emailErr = "Email is required";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $emailErr = "Invalid email format";
-    }
 
-    if (!$password) {
-        $passwordErr = "Password is required";
-    } elseif (!preg_match("/^(?=.*[A-Z])(?=.*[!@#$%^&_]).{7,}$/", $password)) {
-        $passwordErr = "Password must be 7+ chars with uppercase, number & special char";
-    }
-    // Display inputs if no errors
-    if (!$nameErr && !$emailErr && !$passwordErr) {
-        echo "<h3>Your Input:</h3>";
-        echo "Name: $name<br>Email: $email<br>Password: $password<br>";
-    }
-}
-?>
-<form method="post" action="">
-    Name: <input type="text" name="name" >
-    <span class="error"><?= $nameErr ?></span><br><br>
-    Email: <input type="text" name="email">
-    <span class="error"><?= $emailErr ?></span><br><br>
-    Password: <input type="text" name="password">
-    <span class="error"><?= $passwordErr ?></span><br><br>
-    <input type="submit" value="Submit">
-</form>
-</body>
-</html>
