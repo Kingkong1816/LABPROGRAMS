@@ -1,90 +1,176 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>File Handling in PHP</title>
-</head>
-<body>
-<marquee><b><h1>File Handling Methods</h1></b></marquee>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
 
-<form method="get">
-    1. FILE CREATE <br>
-    2. FILE READ <br>
-    3. FILE APPEND <br>
-    4. FILE COPY <br>
-    5. FILE DELETE <br><br>
-    ENTER YOUR CHOICE: <input type="text" name="CHOICE"/><br><br>
-    <input type="submit" value="Submit"/><br>
-</form>
-<hr>
+    
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:padding="16dp" >
 
-<?php
-if (isset($_GET["CHOICE"]) && $_GET["CHOICE"] !== '') {
-    $n = $_GET["CHOICE"];
+        <EditText
+            android:id="@+id/editUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username" >
 
-    switch ($n) {
-        case 1:
-            echo "<h3>FILE CREATION</h3>";
-            $var = fopen("sample1.txt", "w");
-            $a = "hello php";
-            fwrite($var, $a);
-            fclose($var);
-            echo "File created and data written.<br>";
-            break;
+            <requestFocus />
+        </EditText>
 
-        case 2:
-            echo "<h3>FILE READ</h3>";
-            if (file_exists("sample1.txt")) {
-                $var = fopen("sample1.txt", 'r');
-                $count = 1;
-                while (!feof($var)) {
-                    echo "[" . $count . "] " . fgets($var) . "<br>";
-                    $count++;
-                }
-                fclose($var);
-                echo "Total lines in the file: " . ($count - 1) . "<br>";
-            } else {
-                echo "File does not exist.<br>";
-            }
-            break;
+        <EditText
+            android:id="@+id/editPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword" />
+    <EditText
+            android:id="@+id/editAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Address" />
 
-        case 3:
-            echo "<h3>FILE APPEND</h3>";
-            $var = fopen("sample1.txt", 'a+');
-            $txt = " HELLO PROGRAMMER";
-            fwrite($var, $txt);
-            fseek($var, 0);
-            $f1 = fread($var, filesize('sample1.txt'));
-            fclose($var);
-            echo "Appended successfully. File contents:<br>";
-            echo nl2br($f1) . "<br>";
-            break;
+        <RadioGroup
+            android:id="@+id/radioGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
 
-        case 4:
-            echo "<h3>FILE COPY</h3>";
-            if (copy('sample1.txt', 'file_copy.txt')) {
-                echo "File copied successfully as file_copy.txt<br>";
-            } else {
-                echo "File copy failed.<br>";
-            }
-            break;
+            <RadioButton
+                android:id="@+id/radioMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Male" />
 
-        case 5:
-            echo "<h3>FILE DELETE</h3>";
-            if (file_exists("sample1.txt")) {
-                if (unlink("sample1.txt")) {
-                    echo "File deleted successfully.<br>";
-                } else {
-                    echo "File could not be deleted.<br>";
-                }
-            } else {
-                echo "File does not exist.<br>";
-            }
-            break;
+            <RadioButton
+                android:id="@+id/radioFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female" />
+        </RadioGroup>
 
-        default:
-            echo "<h3 style='color:red;'>Enter a valid choice (1-5)</h3>";
-    }
+        <EditText
+            android:id="@+id/editAge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Age"
+            android:inputType="number" />
+
+        <DatePicker
+            android:id="@+id/datePicker"
+            android:layout_width="match_parent"
+            android:layout_height="100dp" />
+        <Spinner
+            android:id="@+id/spinnerState"
+            android:layout_width="match_parent"
+            android:layout_height="49dp" />
+
+        <!-- Submit Button -->
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Submit" />
+
+        <!-- Output Display -->
+
+        <TextView
+            android:id="@+id/textOutput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
+        package com.example.p2;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+public class MainActivity extends Activity {
+
+	EditText editUsername, editPassword, editAddress, editAge;
+	RadioGroup radioGender;
+	DatePicker datePicker;
+	Spinner spinnerState;
+	Button btnSubmit;
+	TextView textOutput;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+
+		editUsername = (EditText) findViewById(R.id.editUsername);
+		editPassword = (EditText) findViewById(R.id.editPassword);
+		editAddress = (EditText) findViewById(R.id.editAddress);
+		editAge = (EditText) findViewById(R.id.editAge);
+		radioGender = (RadioGroup) findViewById(R.id.radioGender);
+		datePicker = (DatePicker) findViewById(R.id.datePicker);
+		spinnerState = (Spinner) findViewById(R.id.spinnerState);
+		btnSubmit = (Button) findViewById(R.id.btnSubmit);
+		textOutput = (TextView) findViewById(R.id.textOutput);
+
+		// Populate spinner
+		String[] states = { "Select State", "Tamil Nadu", "Kerala",
+				"Karnataka", "Andhra Pradesh" };
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_dropdown_item, states);
+		spinnerState.setAdapter(adapter);
+
+		btnSubmit.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+
+				String username = editUsername.getText().toString();
+				String password = editPassword.getText().toString();
+				String address = editAddress.getText().toString();
+				String age = editAge.getText().toString();
+
+				int selectedGenderId = radioGender.getCheckedRadioButtonId();
+				RadioButton selectedGender = (RadioButton) findViewById(selectedGenderId);
+				String gender = (selectedGender != null) ? selectedGender
+						.getText().toString() : "Not selected";
+
+				String dob = datePicker.getDayOfMonth() + "/"
+						+ (datePicker.getMonth() + 1) + "/"
+						+ datePicker.getYear();
+
+				String state = spinnerState.getSelectedItem().toString();
+
+				String result = "Username: " + username + "\n" + "Password: "
+						+ password + "\n" + "Address: " + address + "\n"
+						+ "Gender: " + gender + "\n" + "Age: " + age + "\n"
+						+ "DOB: " + dob + "\n" + "State: " + state;
+
+				textOutput.setText(result);
+			}
+		});
+	}
+
 }
-?>
-</body>
-</html>
+
+
