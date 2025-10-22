@@ -1,73 +1,84 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Looping & Conditional Statement</title>
-</head>
-<body>
-<marquee><b><h1>LOOPING & CONDITIONAL STATEMENT</h1></b></marquee>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
 
-<form method="get">
-    1. Armstrong number<br>
-    2. Sum of digits<br>
-    3. Display triangle<br><br>
-    Enter your choice: <input type="text" name="choice"/><br><br>
-    <input type="submit" value="Submit"/><br>
-</form>
-<hr>
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="62dp"
+        android:text="Welcome To GUI"
+        android:textColor="#ff0000" 
+        android:textSize="24dp"/>
 
-<?php
-if (isset($_GET["choice"]) && $_GET["choice"] !== '') {
-    $n = $_GET["choice"];
+    <EditText
+        android:id="@+id/editTextName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewResult"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="51dp"
+        android:ems="10"
+        android:hint="Enter your name" >
 
-    switch ($n) {
-        case 1:
-            echo strtoupper("<b><i>Armstrong number</i></b><br>");
-            $num = 153;   // test number
-            $total = 0;
-            $x = $num;
+        <requestFocus />
+    </EditText>
 
-            while ($num != 0) {
-                $rem = $num % 10;
-                $total = $total + ($rem * $rem * $rem);
-                $num = intdiv($num, 10);  // integer division
-            }
+    <TextView
+        android:id="@+id/textViewResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="68dp"
+        android:text="" 
+        android:textSize="20dp"/>
 
-            if ($x == $total) {
-                echo "$x is an Armstrong number";
-            } else {
-                echo "$x is not an Armstrong number";
-            }
-            break;
+    <Button
+        android:id="@+id/buttonShow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp"
+        android:text="click Me"
+        android:textColor="#00ff00" />
 
-        case 2:
-            echo strtoupper("<b><i>Sum of digits</i></b><br>");
-            $num = 163;   // test number
-            $sum = 0;
-
-            $x = $num;
-            while ($num > 0) {
-                $rem = $num % 10;
-                $sum = $sum + $rem;
-                $num = intdiv($num, 10);
-            }
-
-            echo "Sum of digits of $x = $sum";
-            break;
-
-        case 3:
-            echo strtoupper("<b><i>Triangle</i></b><br>");
-            for ($i = 1; $i <= 5; $i++) {
-                for ($j = 1; $j <= $i; $j++) {
-                    echo "*";
-                }
-                echo "<br>";
-            }
-            break;
-
-        default:
-            echo "<span style='color:red'>Please enter valid choice (1-3)</span>";
+</RelativeLayout>
+package com.example.first;
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+public class MainActivity extends Activity {
+	TextView titleText,textViewResult;
+	EditText editTextName;
+	Button buttonShow;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        titleText=(TextView)findViewById(R.id.titleText);
+        textViewResult = (TextView)findViewById(R.id.textViewResult);
+        editTextName=(EditText)findViewById(R.id.editTextName);
+        buttonShow=(Button)findViewById(R.id.buttonShow);
+        buttonShow.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				String name=editTextName.getText().toString();
+				textViewResult.setText(name);
+			}
+		});	
+    }     
     }
-}
-?>
-</body>
-</html>
