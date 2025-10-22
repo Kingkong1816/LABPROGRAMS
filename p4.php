@@ -1,75 +1,60 @@
-<html>
-<head>
-<title>PHP Required Field Validator</title>
-</head>
-<body>
-<h1><b><marquee>PHP PROGRAM FOR REQUIRED FIELD VALIDATOR</marquee></b></h1>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
 
-<?php
-// Initialize variables
-$name = $email = $password = "";
-$nameerr = $emailerr = $passworderr = "";
+    <Button
+        android:id="@+id/btnShowProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="169dp"
+        android:text="Start Task" />
 
-// Function to sanitize input
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
+</RelativeLayout>
+
+package com.example.prg4;
+
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
+
+public class MainActivity extends Activity {
+
+	Button btnShowProgress;
+	ProgressDialog progressDialog;
+	Handler handler = new Handler(); 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+	btnShowProgress = (Button) findViewById(R.id.btnShowProgress);
+		btnShowProgress.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+			progressDialog = new ProgressDialog(MainActivity.this);
+				progressDialog.setMessage("Processing...");
+				progressDialog.setTitle("Please wait");
+				progressDialog.setCancelable(false); 
+				progressDialog.show();
+				handler.postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						progressDialog.dismiss(); 
+					}
+				}, 7000); 
+			}
+		});
+	}
+
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    // Name validation
-    if (empty($_POST["name"])) {
-        $nameerr = "Name is required";
-    } elseif (!preg_match("/^[a-zA-Z ]*$/", $_POST["name"])) {
-        $nameerr = "Only letters and white space allowed";
-    } else {
-        $name = test_input($_POST["name"]);
-    }
-
-    // Email validation
-    if (empty($_POST["email"])) {
-        $emailerr = "Email is required";
-    } elseif (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
-        $emailerr = "Invalid email format";
-    } else {
-        $email = test_input($_POST["email"]);
-    }
-
-    // Password validation
-    if (empty($_POST["password"])) {
-        $passworderr = "Password is required";
-    } elseif (!preg_match("/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/", $_POST["password"])) {
-        $passworderr = "Password must be at least 6 chars long and contain letters and numbers";
-    } else {
-        $password = test_input($_POST["password"]);
-    }
-}
-?>
-
-<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    NAME: <input type="text" name="name" value="<?php echo $name; ?>">
-    <span class="error"><font color="red"><?php echo $nameerr; ?></font></span><br><br>
-
-    EMAIL: <input type="text" name="email" value="<?php echo $email; ?>">
-    <span class="error"><font color="red"><?php echo $emailerr; ?></font></span><br><br>
-
-    PASSWORD: <input type="password" name="password" value="<?php echo $password; ?>">
-    <span class="error"><font color="red"><?php echo $passworderr; ?></font></span><br><br>
-
-    <input type="submit" value="Submit">
-</form>
-
-<?php
-if ($_SERVER["REQUEST_METHOD"] == "POST" && !$nameerr && !$emailerr && !$passworderr) {
-    echo "<h3>Form Submitted Successfully!</h3>";
-    echo "Name: $name<br>";
-    echo "Email: $email<br>";
-    echo "Password: $password<br>";
-}
-?>
-
-</body>
-</html>
